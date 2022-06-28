@@ -13,7 +13,7 @@ export class UserDto {
     @IsNotEmpty()
     name: string;
 
-    @IsNotEmpty({ message: 'Email is required' })
+    // @IsNotEmpty({ message: 'Email is required' })
     @IsEmail()
     email: string;
 

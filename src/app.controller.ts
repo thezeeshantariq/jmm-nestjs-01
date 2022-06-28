@@ -16,6 +16,7 @@ import {
 } from '@nestjs/common';
 import { Response } from 'express';
 import { AppService } from './app.service';
+import { EmailValidationPipe } from './common/pipes/email-validation.pipe';
 import { UserDto } from './dto';
 
 @Controller('api')
@@ -95,11 +96,12 @@ export class AppController {
         return this.appService.createUser(dto);
     }
 
-    // @Get('validPipe/:id')
-    // @UsePipes(new ValidationPipe({
-    //     transform: true
-    // }))
-    // validPipe(@Param('id') id: number) {
-    //     console.log('TYPE OF ID', typeof id);
-    // }
+    @Post('validPipe/:id')
+    // @UsePipes(
+    //     new ValidationPipe({
+    //         transform: true,
+    //     }),
+    // )
+    @UsePipes(new EmailValidationPipe())
+    validPipe(@Body() dto: UserDto) {}
 }
