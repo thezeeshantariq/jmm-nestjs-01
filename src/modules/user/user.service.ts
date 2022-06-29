@@ -1,26 +1,42 @@
 import { Injectable } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { User } from './entities/user.entity';
 
 @Injectable()
 export class UserService {
-  create(createUserDto: CreateUserDto) {
-    return 'This action adds a new user';
-  }
+    // Entity Manager & Repository
+    // -- Entity Manager: Multiple, User -> em.save(User)
+    // -- Repository: repository.save(), find, delete, update, and so on
 
-  findAll() {
-    return `This action returns all user`;
-  }
+    // Inject Repo in Constructor
 
-  findOne(id: number) {
-    return `This action returns a #${id} user`;
-  }
+    constructor(@InjectRepository(User) private repository: Repository<User>) {}
 
-  update(id: number, updateUserDto: UpdateUserDto) {
-    return `This action updates a #${id} user`;
-  }
+    create(createUserDto: CreateUserDto) {
+        return this.repository.save(createUserDto);
+    }
 
-  remove(id: number) {
-    return `This action removes a #${id} user`;
-  }
+    findAll() {
+        return this.repository.find();
+    }
+
+    findOne(id: number) {
+        return this.repository.findOneBy({ id });
+    }
+
+    update(id: number, updateUserDto: UpdateUserDto) {
+        return this.repository.update(
+            {
+                id,
+            },
+            updateUserDto,
+        );
+    }
+
+    remove(id: number) {
+        return this.repository.delete({ id });
+    }
 }

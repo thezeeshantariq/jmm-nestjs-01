@@ -13,7 +13,7 @@ import { UserModule } from './modules/user/user.module';
             username: 'postgres',
             password: 'root',
             database: 'project_mgmt',
-            entities: [],
+            autoLoadEntities: true,
             // synchronize: true,
         }),
         UserModule,
